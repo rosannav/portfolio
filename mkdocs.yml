@@ -1,6 +1,6 @@
-site_name: Portfolio
+site_name: Rosanna's Portfolio
 nav:
-#    - Portfolio: index.md
+    - Overview: index.md
 #        - Open Library API reasoning
 #    - Open Library API: 
 #        - Quick-start guide: quickstartguide.md
