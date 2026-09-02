@@ -6,24 +6,24 @@
 ## Call parameters
 At least one search parameter (e.g., `q`, `title`, `author`) should be provided to return meaningful results.
 
-| Parameter  | Type                   | Description                                                                                                                                                       | Example             |
-| ---------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `q`        | string                 | General search across all fields. Supports plain text. See [[#Advanced search syntax]].                                                                           | `the hobbit`        |
-| `title`    | string                 | Search for works matching this title.                                                                                                                             | `the hobbit`        |
-| `author`   | string                 | Search for works by this author.                                                                                                                                  | `tolkien`           |
-| `subject`  | string                 | Search by subject or topic                                                                                                                                        | `dogs`              |
-| `language` | string                 | Search by language. Excludes editions in other languages.                                                                                                         | fre                 |
-| `lang`     | string                 | Prioritise editions in a specific language. Does not exclude editions in other languages.                                                                         | fr                  |
-| `fields`   | comma-separated string | The output fields to return, comma-separated. See [[#`Fields` options]] for special values.                                                                       | `*,ia,availability` |
-| `sort`     | string                 | Sort order. **Default**: relevance. See [[#`Sort` options]] for required parameters that need to be requested in `fields`. Overrides `lang` (observed behaviour). | `relevance`         |
-| `limit`    | integer                | Maximum number of results to return. Default: 20.                                                                                                                 | 50                  |
-| `offset`   | integer                | Skips the first N results. Default: 0. Overrides `page`.                                                                                                          | 20                  |
-| `page`     | integer                | Skips to next page, with N results per page (as set with `limit`). Alternative to `offset` for pagination. Default: 1.                                            | 3                   |
+| Parameter  | Type                   | Description                                                                                                                                                                   | Example             |
+| ---------- | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `q`        | string                 | General search across all fields. Supports plain text. See [Advanced search syntax](#advancted-search-syntax).                                                                | `the hobbit`        |
+| `title`    | string                 | Search for works matching this title.                                                                                                                                         | `the hobbit`        |
+| `author`   | string                 | Search for works by this author.                                                                                                                                              | `tolkien`           |
+| `subject`  | string                 | Search by subject or topic                                                                                                                                                    | `dogs`              |
+| `language` | string                 | Search by language. Excludes editions in other languages.                                                                                                                     | fre                 |
+| `lang`     | string                 | Prioritise editions in a specific language. Does not exclude editions in other languages.                                                                                     | fr                  |
+| `fields`   | comma-separated string | The output fields to return, comma-separated. See [`fields` options](#fields-toptions) for special values.                                                                    | `*,ia,availability` |
+| `sort`     | string                 | Sort order. **Default**: relevance. See [`Sort` options](#sort-options) for required parameters that need to be requested in `fields`. Overrides `lang` (observed behaviour). | `relevance`         |
+| `limit`    | integer                | Maximum number of results to return. Default: 20.                                                                                                                             | 50                  |
+| `offset`   | integer                | Skips the first N results. Default: 0. Overrides `page`.                                                                                                                      | 20                  |
+| `page`     | integer                | Skips to next page, with N results per page (as set with `limit`). Alternative to `offset` for pagination. Default: 1.                                                        | 3                   |
 !!! info Language codes
     - `lang` uses a 2-letter ISO 639 language code.
     - `language` uses a 3-letter ISO 639 language code.
     
-    See here for a complete [List of language codes](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes).
+    See [here](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) for a complete list of language codes.
 
 ### `Fields` options
 Specify which output to return within the `fields` parameter. 
@@ -44,46 +44,47 @@ curl 'https://openlibrary.org/search.json?subject=dogs&fields=key,editions,title
 
 | Parameter      | Description                                                                                                                                                                                                                                        |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `*`            | Returns ==all fields.==                                                                                                                                                                                                                            |
-| `key`          | Returns works key. Required for requesting information on  `editions`.                                                                                                                                                                             |
+| `*`            | Returns [all fields](#list-of-all-known-response-parameters).                                                                                                                                                                                      |
+| `key`          | Returns works key. Necessary for requesting information on `editions`.                                                                                                                                                                             |
 | `editions`     | Returns information for the first edition listed for a work based on the work `key`. First edition listed depends on sorting (see `lang`and `sort`).                                                                                               |
-| `ia`           | Returns ==Internet Archive== IDs. Required for requesting `availability`.                                                                                                                                                                          |
+| `ia`           | Returns Internet Archive IDs. Necessary for requesting `availability`.                                                                                                                                                                             |
 | `availability` | Returns information for the first item in the work's `ia` field. To return availability for the specific edition, include `editions` in `fields`. If `editions` has also been requested, `availability` will be shown for that particular edition. |
 !!! note
     Support for returning multiple editions via `editions.row` or `editions.start` is planned but not currently available.
 
 ### `Sort` options
-==requires testing==
+Options for sorting works. Some sort options require a specific parameter in `fields`.
 
 ```bash
 curl 'https://openlibrary.org/search.json?subject=dogs&sort=new&fields=first_publish_year,key,title,author_name'
 ```
 
-| Sort value               | Direction  | Description                                   | Required `fields` parameter  |
-| ------------------------ | ---------- | --------------------------------------------- | ---------------------------- |
-| *General*                |            |                                               |                              |
-| `relevance`              | desc       | Default. By search relevance.                 | *NA*                         |
-| `new`                    | desc       | Newest first by first publish year.           | `first_publish_year`         |
-| `old`                    | asc        | Oldest first by first publish year.           | `first_publish_year`         |
-| `editions`               | desc       | By number of editions.                        | `edition_count`              |
-| `title`                  | asc        | Alphabetically by title.                      | `title_sort`                 |
-| `key`                    | asc / desc | By Open Library key.                          | `key`                        |
-| *Metrics*                |            |                                               |                              |
-| `rating`                 | asc / desc | By average rating.                            | `ratings_sortable`           |
-| `readinglog`             | desc       | By number of readers tracking the work.       | `readinglog_count`           |
-| `want_to_read`           | desc       | By "want to read" count.                      | `want_to_read_count`         |
-| `currently_reading`      | desc       | By "currently reading" count.                 | `currently_reading_count`    |
-| `already_read`           | desc       | By "already read" count.                      | `already_read_count`         |
-| *Ebook access*           |            |                                               |                              |
-| `ebook_access`           | asc / desc | By ebook availability.                        | `ebook_access`               |
-| `scans`                  | desc       | By number of Internet Archive scanned copies. | `ia_count`                   |
-| *Library classification* |            |                                               |                              |
-| `lcc_sort`               | asc / desc | By Library of Congress Classification.        | `lcc_sort`                   |
-| `ddc_sort`               | asc / desc | By Dewey Decimal Classification.              | `ddc_sort`                   |
-| *Random*                 |            |                                               |                              |
-| `random`                 | asc / desc | Deterministic random sort (seeded).           | *NA*                         |
-| `random.hourly`          | asc        | Reshuffled every hour.                        | *NA*                         |
-| `random.daily`           | asc        | Reshuffled every day.                         | *NA*                         |
+
+| Sort value                   | Direction  | Description                                   | Required `fields` parameter |
+| ---------------------------- | ---------- | --------------------------------------------- | --------------------------- |
+| ***General***                |            |                                               |                             |
+| `relevance`                  | desc       | Default. By search relevance.                 | *NA*                        |
+| `new`                        | desc       | Newest first by first publish year.           | `first_publish_year`        |
+| `old`                        | asc        | Oldest first by first publish year.           | `first_publish_year`        |
+| `editions`                   | desc       | By number of editions.                        | `edition_count`             |
+| `title`                      | asc        | Alphabetically by title.                      | `title_sort`                |
+| `key`                        | asc / desc | By Open Library key.                          | `key`                       |
+| ***Metrics***                |            |                                               |                             |
+| `rating`                     | asc / desc | By average rating.                            | `ratings_sortable`          |
+| `readinglog`                 | desc       | By number of readers tracking the work.       | `readinglog_count`          |
+| `want_to_read`               | desc       | By "want to read" count.                      | `want_to_read_count`        |
+| `currently_reading`          | desc       | By "currently reading" count.                 | `currently_reading_count`   |
+| `already_read`               | desc       | By "already read" count.                      | `already_read_count`        |
+| ***Ebook access***           |            |                                               |                             |
+| `ebook_access`               | asc / desc | By ebook availability.                        | `ebook_access`              |
+| `scans`                      | desc       | By number of Internet Archive scanned copies. | `ia_count`                  |
+| ***Library classification*** |            |                                               |                             |
+| `lcc_sort`                   | asc / desc | By Library of Congress Classification.        | `lcc_sort`                  |
+| `ddc_sort`                   | asc / desc | By Dewey Decimal Classification.              | `ddc_sort`                  |
+| ***Random***                 |            |                                               |                             |
+| `random`                     | asc / desc | Deterministic random sort (seeded).           | *NA*                        |
+| `random.hourly`              | asc        | Reshuffled every hour.                        | *NA*                        |
+| `random.daily`               | asc        | Reshuffled every day.                         | *NA*                        |
 
 ### Advanced search syntax
 The `q` parameter accepts Solr fielded syntax for precise queries:
@@ -94,10 +95,10 @@ The `q` parameter accepts Solr fielded syntax for precise queries:
 
 This is equivalent to using the dedicated `subject`, `title`, or `author` parameters, but supports additional boolean operators and escaping rules. See [Open Library Search How-To](https://openlibrary.org/search/howto) for complete details.
 ## Response parameters
-The Search API returns a single JSON object with metadata about the query and an array of matching works.
-
-!!! info
-    Missing fields are omitted from the response rather than returned as `null`.
+!!! note
+    All parameter descriptions are derived from inference by comparing the Open Library and Internet Archive webpages with JSON response. 
+    
+The Search API returns a single JSON object with metadata about the query and an array of works that matched the search call.
 
 ```json
 {
@@ -120,8 +121,10 @@ The Search API returns a single JSON object with metadata about the query and an
 }
 ```
 
-!!! warning
-    All parameter descriptions are derived from inference by comparing the Open Library and Internet Archive webpages with JSON response. 
+
+!!! info
+    Missing fields are omitted from the response rather than returned as `null`.
+    
 ### Metadata
 Metadata about the request.
 
@@ -136,7 +139,7 @@ Metadata about the request.
 | `docs`                  | array of objects | The search results. Each object is a work containing the fields listed ...                                 |
 
 ### Search response
-Default response parameters. Returned inside the `docs` array (e.g. `docs.isbn`).
+Default response parameters. Returned inside the `docs` array (e.g. `docs.cover_i`).
 
 !!! note "Work vs Editions level information"
     The `docs` array contains information organised at the **work** level (i.e. book; author info, first publish year) and the **edition** level (like title, identifiers, covers, etc).
@@ -145,33 +148,33 @@ Default response parameters. Returned inside the `docs` array (e.g. `docs.isbn`)
     
     `availability` will be indexed as `docs.editions.docs.availability` if `editions` is called. If `editions` was not called, `availability` will be indexed at the works level: `docs.editions`.
 
-| Field                  | Type             | Description                                                                |
-| ---------------------- | ---------------- | -------------------------------------------------------------------------- |
-| `author_key`           | array of strings | Open Library author ID (`https://openlibrary.org/authors/{author_key}`)    |
-| `author_name`          | array of strings | Author                                                                     |
-| `cover_edition_key`    | string           | Cover IDs                                                                  |
-| `cover_i`              | integer          | Cover image ID (for `https://covers.openlibrary.org/b/id/{cover_i}-M.jpg`) |
-| `ebook_access`         | string           | Ebook accessibility (public, borrowable, printdisabled, no_ebook)          |
-| `edition_count`        | integer          | Number of editions available                                               |
-| `first_publish_year`   | integer          | Original publication year                                                  |
-| `has_fulltext`         | boolean          | Full text availability                                                     |
-| `ia`                   | array of strings | Internet Archive ID (`https://archive.org/details/{ia}`)                   |
-| `ia_collection`        | array of strings | Internet Archive collections                                               |
-| `isbn`                 |                  | ISBN identifiers                                                           |
-| `key`                  | string           | Open Library work ID (for `https://openlibrary.org/{key}`                  |
-| `language`             | string           | Available languages (3-letter ISO 639 language code)                       |
-| `lending_edition_s`    | string           | Open Library work ID of lending edition                                    |
-| `lending_identifier_s` | string           | Secondary lending edition identifier (possibly for the Internet Archive).  |
-| `public_scan_b`        | boolean          | Public scan availability                                                   |
-| `series_key`           | array of strings | Series ID                                                                  |
-| `series_name`          | array of strings | Series title                                                               |
-| `series_position`      | array of strings | Position of the book in the series                                         |
-| `subtitle`             | string           | Book subtitle                                                              |
-| `title`                | string           | Book title                                                                 |
+| Field                  | Type             | Description                                                                 |
+| ---------------------- | ---------------- | --------------------------------------------------------------------------- |
+| `author_key`           | array of strings | Open Library author ID (`https://openlibrary.org/authors/{author_key}`).    |
+| `author_name`          | array of strings | Author.                                                                     |
+| `cover_edition_key`    | string           | Cover IDs.                                                                  |
+| `cover_i`              | integer          | Cover image ID (for `https://covers.openlibrary.org/b/id/{cover_i}-M.jpg`). |
+| `ebook_access`         | string           | Ebook accessibility (public, borrowable, printdisabled, no_ebook).          |
+| `edition_count`        | integer          | Number of editions available.                                               |
+| `first_publish_year`   | integer          | Original publication year.                                                  |
+| `has_fulltext`         | boolean          | Full text availability.                                                     |
+| `ia`                   | array of strings | Internet Archive ID (`https://archive.org/details/{ia}`).                   |
+| `ia_collection`        | array of strings | Internet Archive collections.                                               |
+| `key`                  | string           | Open Library work ID (for `https://openlibrary.org/{key}`.                  |
+| `language`             | string           | Available languages (3-letter ISO 639 language code).                       |
+| `lending_edition_s`    | string           | Open Library work ID of lending edition.                                    |
+| `lending_identifier_s` | string           | Secondary lending edition identifier (possibly for the Internet Archive).   |
+| `public_scan_b`        | boolean          | Public scan availability.                                                   |
+| `series_key`           | array of strings | Series ID.                                                                  |
+| `series_name`          | array of strings | Series title.                                                               |
+| `series_position`      | array of strings | Position of the book in the series.                                         |
+| `subtitle`             | string           | Book subtitle.                                                              |
+| `title`                | string           | Book title.                                                                 |
 
 ### List of all known response parameters
+Overview of all parameters that may be returned.
 
-| Field                                       | Field                                                     | Field                                     |
+| Parameter                                   |                                                           |                                           |
 | ------------------------------------------- | --------------------------------------------------------- | ----------------------------------------- |
 | `access_score`                              | `access_score_normalized`                                 | `already_read_count`                      |
 | `author_alternative_name`                   | `author_facet`                                            | `author_key`                              |
