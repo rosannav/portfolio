@@ -1,0 +1,16 @@
+site_name: Portfolio
+nav:
+#    - Portfolio: index.md
+#        - Open Library API reasoning
+#    - Open Library API: 
+#        - Quick-start guide: quickstartguide.md
+#       - Search Endpoint Reference: open-lib-book-api.md
+    - Open Library Book Search API: open-lib-book-api.md
+# test    
+theme: material
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - attr_list
+  - md_in_html
