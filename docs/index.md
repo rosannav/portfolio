@@ -2,7 +2,8 @@
 *Technical Writer & Strategic Communicator*  
 I turn chaotic expert knowledge into clear, actionable documents and decisions.
 
-## Open Library Book Search API
+## Portfolio
+### Open Library Book Search API
 **Scope:** Search endpoint 
 
 - [API Rate Limits](rate-limits)
