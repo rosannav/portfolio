@@ -1,8 +1,8 @@
 # Book Search API
-**URL:** [https://openlibrary.org/search.json](https://openlibrary.org/search.json)
-
-!!! info "Original docs"
+!!! info "Source material"
     [https://web.archive.org/web/20260707041106/https://openlibrary.org/dev/docs/api/search](https://web.archive.org/web/20260707041106/https://openlibrary.org/dev/docs/api/search)
+
+**URL:** [https://openlibrary.org/search.json](https://openlibrary.org/search.json)
 ## Call parameters
 At least one search parameter (e.g., `q`, `title`, `author`) should be provided to return meaningful results.
 
@@ -169,7 +169,7 @@ Default response parameters. Returned inside the `docs` array (e.g. `docs.isbn`)
 | `subtitle`             | string           | Book subtitle                                                              |
 | `title`                | string           | Book title                                                                 |
 
-### List of known response parameters
+### List of all known response parameters
 
 | Field                                       | Field                                                     | Field                                     |
 | ------------------------------------------- | --------------------------------------------------------- | ----------------------------------------- |

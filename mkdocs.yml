@@ -5,7 +5,9 @@ nav:
 #    - Open Library API: 
 #        - Quick-start guide: quickstartguide.md
 #       - Search Endpoint Reference: open-lib-book-api.md
-    - Open Library Book Search API: open-lib-book-api.md
+    - Open Library Book Search API:
+        - Rate limits: rate-limits.md
+        - Reference: open-lib-book-api.md
 # test    
 theme: material
 markdown_extensions:
