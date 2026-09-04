@@ -5,8 +5,8 @@ aliases:
 ---
 # End-user Quick-start guide
 !!! info "Source material"
-    - https://web.archive.org/web/20260902150500/https://archiveofourown.org/faq?language_id=en
-    - https://web.archive.org/web/20260901122902/https://archiveofourown.org/tos_faq
+     [https://web.archive.org/web/20260902150500/https://archiveofourown.org/faq?language_id=en](https://web.archive.org/web/20260902150500/https://archiveofourown.org/faq?language_id=en)
+     [https://web.archive.org/web/20260901122902/https://archiveofourown.org/tos_faq](https://web.archive.org/web/20260901122902/https://archiveofourown.org/tos_faq)
 ## About this guide
 In this quick-start guide, you'll learn how to browse the large online content archive Archive of Our Own (AO3) to find a story to read.
 ## Finding a story
