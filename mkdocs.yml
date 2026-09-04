@@ -8,6 +8,7 @@ nav:
     - Open Library Book Search API:
         - Rate limits: rate-limits.md
         - Reference: open-lib-book-api.md
+    - AO3 Quick-Start Guide : end-user-guide.md
 # test    
 theme: material
 markdown_extensions:
